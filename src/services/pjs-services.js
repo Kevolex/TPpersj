@@ -7,7 +7,7 @@ class PjService {
         console.log('Estoy en: PJService.getAll()');
         try {
             let pool   = await sql.connect(config);
-            let result = await pool.request().query("SELECT * from Pizzas");
+            let result = await pool.request().query("SELECT * from Personajes");
             returnArray = result.recordsets[0];
         }
         catch (error) {

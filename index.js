@@ -1,5 +1,10 @@
-import config from './dbconfig.js';
-import sql from 'mssql';
-import PjService from './src/services/pjs-services.js';
+import PjService from "./src/services/pjs-services.js"
+import  Express  from "express";
+const app = Express();
+const port = 5000;
+const svc1 = new PjService();
 
-console.log()
+app.get(async (req,res) =>{
+    const todosPjs = await svc1.getAll();
+    return res.status(200).json(todosPjs);
+})

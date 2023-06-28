@@ -1,4 +1,4 @@
-import config from '../../dbconfig-env.js';
+/*import config from '../../dbconfig-env.js';
 import sql from 'mssql';
 
 class PjService {
@@ -105,4 +105,4 @@ class PjService {
 }
 
 export default PjService;
-
+*/
