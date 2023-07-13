@@ -2,12 +2,13 @@ import config from '../../dbconfig-env.js';
 import sql from 'mssql';
 
 class PjService {
+    
     getAll = async () => {
         let returnArray = null;
         console.log('Estoy en: PJService.getAll()');
         try {
             let pool   = await sql.connect(config);
-            let result = await pool.request().query("SELECT * from Personajes");
+            let result = await pool.request().query("SELECT * from Personaje");
             returnArray = result.recordsets[0];
         }
         catch (error) {
@@ -24,6 +25,21 @@ class PjService {
             let result = await pool.request()
             .input('pId', sql.Int, id)
             .query('SELECT * FROM Personaje WHERE id = @pId');
+            returnEntity = result.recordsets[0][0];
+        } catch (error) {
+            console.log(error);
+        }
+        return returnEntity;
+    }
+
+    getByEdad = async (id) => {
+        let returnEntity = null;
+        console.log('Estoy en: PJService.getByEdad(edad)');
+        try {
+            let pool   = await sql.connect(config);
+            let result = await pool.request()
+            .input('pEdad', sql.Int, id)
+            .query('SELECT * FROM Personaje WHERE Edad = @pEdad');
             returnEntity = result.recordsets[0][0];
         } catch (error) {
             console.log(error);

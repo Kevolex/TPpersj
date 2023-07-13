@@ -1,11 +1,21 @@
 import PjService from "./src/services/pjs-services.js";
 import PsService from "./src/services/pelis-services.js";
-import  Express  from "express";
-const app = Express();
+import  express  from "express";
+const app = express();
+import cors from "cors";
 const port = 5000;
 const svc1 = new PjService();
 const svc2 = new PsService();
 
+app.use(express.urlencoded());
+app.use(express.json());
+app.use(cors());
+
+
+//server
+app.listen(port,() =>{
+    console.log('ESCUCHANDO PORT 5000')
+})
 
 app.get('/',async (req,res) =>{
     res.send("pone /personajes para mostrar personajes o /pelis para mostrar las peliculas")
@@ -15,9 +25,14 @@ app.get('/personajes',async (req,res) =>{
     const todosPjs = await svc1.getAll();
     return res.status(200).json(todosPjs);
 })
+//pelis
+app.get('/pelis',async (req,res) =>{
+    const todosPs = await svc2.getAll();
+    return res.status(200).json(todosPs);
+})
 //buscarporidpelicula
-app.get('/buscarpersonajeporidpelicula/:id',async (req,res) =>{
-    const peliId = await svc1.getById(req.params.id);
+app.get('/pelis/:id',async (req,res) =>{
+    const peliId = await svc2.getById(req.params.id);
     return res.status(200).json(peliId)
 });
 //buscarpornombre
@@ -26,21 +41,7 @@ app.get('/buscarpersonajepornombre/:nombre',async (req,res) =>{
     return res.status(200).json(personaje)
 });
 //buscarporedad
-app.get('/buscarpersonajeporedad/:edad',async (req,res) =>{
-    const personaje = await svc1.getByedad(req.params.edad);
-    return res.status(200).json(personaje)
+app.get('/personajes/:edad',async (req,res) =>{
+    const PjEdad = await svc1.getByEdad(req.params.edad);
+    return res.status(200).json(PjEdad)
 });
-//server
-app.listen(port,() =>{
-    console.log('ESCUCHANDO PORT 5000')
-})
-//peliculas
-app.get('/movies',async (req,res) =>{
-    const peliculasyseries = await svc2.getIdImagenTituloFecha();
-    return res.status(200).json(peliculasyseries);
-})
-//peliculas
-app.get('/buscarpelipornombre/:nombre',async (req,res) =>{
-    const peliculasyseries = await svc2.getByNombre(req.params.nombre);
-    return res.status(200).json(peliculasyseries);
-})
